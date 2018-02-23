@@ -41,7 +41,7 @@ echo assign letter=%DRIVELETTER% >>"%DISKPARTSCRIPT%"
 rem Run the created Diskpart-Script
 diskpart /s "%DISKPARTSCRIPT%"
 
-if not "%ERRORLEVEL%" == "0" goto diskparterror
+if not "%ERRORLEVEL%" == "0" goto end
 echo.
 echo.
 echo Virtual Disk "%DISKFILE%" created
@@ -53,5 +53,6 @@ pause
 rem Apply Bitlocker Encryption
 manage-bde.exe -on %DRIVELETTER%: -UsedSpaceOnly -Password -Encryptionmethod aes128
 
+:end
 pause
 
