@@ -18,10 +18,9 @@ IF %ERRORLEVEL% NEQ 0 (
 
 rem Create a diskpart-Script in TEMP-Directory
 set DISKPARTSCRIPT=%TEMP%\diskpart-script.txt
-if exist "%DISKPARTSCRIPT%" del /f /q "%DISKPARTSCRIPT%"
 
 rem Create a new VHDX-File and attach it to the System als virtual Disk
-echo create vdisk file="%DISKFILE%" maximum=%DISKSIZE% type=expandable >>"%DISKPARTSCRIPT%"
+echo create vdisk file="%DISKFILE%" maximum=%DISKSIZE% type=expandable >"%DISKPARTSCRIPT%"
 echo select vdisk file="%DISKFILE%" >>"%DISKPARTSCRIPT%"
 echo attach vdisk >>"%DISKPARTSCRIPT%"
 echo convert MBR >>"%DISKPARTSCRIPT%"
@@ -32,8 +31,8 @@ echo create partition primary ID=27 >>"%DISKPARTSCRIPT%"
 rem Format the Partition, using exfat Filesystem (large Files support)
 echo format FS=EXFAT Label="vDisk" QUICK >>"%DISKPARTSCRIPT%"
 
-rem Now after formating the Partition change ID from "Recovery Partition" to regular "Data-Partition" ID for mounting
-echo set ID=06 >>"%DISKPARTSCRIPT%"
+rem Now after formating the Partition change ID from "Recovery Partition" to regular Data-Partition exFAT ID7 for mounting
+echo set ID=07 >>"%DISKPARTSCRIPT%"
 
 rem Assign a Drive Letter
 echo assign letter=%DRIVELETTER% >>"%DISKPARTSCRIPT%"
@@ -55,4 +54,3 @@ manage-bde.exe -on %DRIVELETTER%: -UsedSpaceOnly -Password -Encryptionmethod aes
 
 :end
 pause
-
